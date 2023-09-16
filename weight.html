@@ -1,97 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Stick Figure with Arms</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Base styles for the stick figure */
-        .stick-figure {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .head {
-            width: 50px;
-            height: 50px;
-            background-color: #333;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .body {
-            width: 10px;
-            height: 100px;
-            background-color: #333;
-        }
-
-        .arms {
-            display: flex;
-            justify-content: space-between;
-            width: 60px;
-            margin-top: 10px;
-        }
-
-        .arm {
-            width: 10px;
-            height: 40px;
-            background-color: #333;
-            transform-origin: top;
-        }
-
-        /* Additional styles for adjusting size based on weight */
-        .light {
-            transform: scale(0.8);
-        }
-
-        .medium {
-            transform: scale(1);
-        }
-
-        .heavy {
-            transform: scale(1.2);
+        canvas {
+            border: 1px solid black;
         }
     </style>
 </head>
 <body>
-    <h1>Stick Figure with Arms</h1>
-    <div class="stick-figure">
-        <div class="head"></div>
-        <div class="body"></div>
-        <div class="arms">
-            <div class="arm"></div>
-            <div class="arm"></div>
-        </div>
+    <canvas id="stickFigureCanvas" width="300" height="400"></canvas>
+    <div>
+        <label for="weightInput">Weight (pounds):</label>
+        <input type="number" id="weightInput" step="1" min="0" max="300" placeholder="Enter weight" oninput="changeWeight(this.value)">
     </div>
-    <label for="weightInput">Weight (in pounds):</label>
-    <input type="number" id="weightInput" placeholder="Enter weight" oninput="changeWeight(this.value)">
+
     <script>
-        function changeWeight(weight) {
-            const stickFigure = document.querySelector('.stick-figure');
+        const canvas = document.getElementById('stickFigureCanvas');
+        const ctx = canvas.getContext('2d');
+        const weightInput = document.getElementById('weightInput');
 
-            // Convert the input to a number
-            const numericWeight = parseFloat(weight);
+        let headHeight = 0.5; // Start at 0.5 meters
+        let weight = 150; // Start weight at 150 pounds
+        const maxHeadHeight = 3;
+        const minHeadHeight = 0.05; // Minimum height is 0.05 meters
+        const minWeight = 0;
+        const maxWeight = 300;
 
-            // Define weight ranges for visuals
-            const lightWeightRange = [0, 100];
-            const mediumWeightRange = [101, 200];
-            const heavyWeightRange = [201, Infinity];
+        weightInput.value = weight;
 
-            // Determine the class to apply based on the weight
-            let weightClass = '';
-
-            if (!isNaN(numericWeight)) {
-                if (numericWeight >= lightWeightRange[0] && numericWeight <= lightWeightRange[1]) {
-                    weightClass = 'light';
-                } else if (numericWeight >= mediumWeightRange[0] && numericWeight <= mediumWeightRange[1]) {
-                    weightClass = 'medium';
-                } else if (numericWeight >= heavyWeightRange[0]) {
-                    weightClass = 'heavy';
-                }
-            }
-
-            // Apply the appropriate class to adjust the size
-            stickFigure.className = 'stick-figure ' + weightClass;
+        function changeWeight(newWeight) {
+            weight = Math.max(minWeight, Math.min(maxWeight, parseInt(newWeight)));
+            drawStickFigure();
         }
+
+        function drawStickFigure() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Adjust the head height based on weight
+            const normalizedWeight = (weight - minWeight) / (maxWeight - minWeight); // Normalize weight to the range [0, 1]
+            headHeight = minHeadHeight + normalizedWeight * (maxHeadHeight - minHeadHeight);
+
+            // Draw the stick figure with a head that changes height
+            const figureX = canvas.width / 2 - headHeight * 30;
+            const figureY = canvas.height / 4 + headHeight * 30;
+
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 3 - headHeight * 30, headHeight * 30, 0, Math.PI * 2); // Head
+            ctx.moveTo(canvas.width / 2, canvas.height / 3 + headHeight);
+            ctx.lineTo(canvas.width / 2, figureY + headHeight * 100); // Body
+            ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
+            ctx.lineTo(canvas.width / 2 - headHeight * 25, figureY + headHeight * 175); // Left leg
+            ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
+            ctx.lineTo(canvas.width / 2 + headHeight * 25, figureY + headHeight * 175); // Right leg
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2 - headHeight * 50, figureY + headHeight * 100); // Left arm
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2 + headHeight * 50, figureY + headHeight * 100); // Right arm
+            ctx.stroke();
+        }
+
+        drawStickFigure();
     </script>
 </body>
 </html>

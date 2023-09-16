@@ -11,8 +11,8 @@
 </head>
 <body>
     <canvas id="stickFigureCanvas" width="300" height="400"></canvas>
-    <p>Sunscreen Usage:</p>
-    <input type="number" id="sunscreenInput" placeholder="Enter days" min="0" max="7" oninput="updateStickFigureColor(this.value)">
+    <p>How often do you get sunburns?:</p>
+    <input type="number" id="sunscreenInput" placeholder="0(never)-7(always)" min="0" max="7" oninput="updateStickFigureColor(this.value)">
 
     <script>
         const canvas = document.getElementById('stickFigureCanvas');
@@ -28,11 +28,11 @@
             const numericSunscreenDays = parseInt(sunscreenDays);
 
             // Determine the color based on sunscreen usage
-            let color = 'green';
+            let color = 'red';
 
             if (!isNaN(numericSunscreenDays)) {
                 if (numericSunscreenDays <= 1) {
-                    color = 'red';
+                    color = 'green';
                 } else if (numericSunscreenDays <= 3) {
                     color = 'orange';
                 }
@@ -53,7 +53,7 @@
             ctx.lineWidth = 3; // Set the line width
 
             ctx.beginPath();
-            ctx.arc(canvas.width / 2, canvas.height / 4 - headHeight * 50, headHeight * 50, 0, Math.PI * 2); // Head
+            ctx.arc(canvas.width / 2, canvas.height / 4 - headHeight * 5, headHeight * 50, 0, Math.PI * 2); // Head
             ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
             ctx.lineTo(canvas.width / 2, figureY + headHeight * 100); // Body
             ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
