@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="scene" width="800" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('scene');
+        const ctx = canvas.getContext('2d');
+
+        // Initial car position and size
+        let carX = 400;
+        let carY = 200;
+        let carWidth = 100;
+        let carHeight = 50;
+
+        // Mouse interaction variables
+        let isDragging = false;
+        let lastMouseX = 0;
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            lastMouseX = e.clientX;
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - lastMouseX;
+                carX += deltaX;
+                lastMouseX = e.clientX;
+                redraw();
+            }
+        });
+
+        function redraw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Calculate the scale factor based on the car's distance from the viewer
+            const distance = 800; // You can adjust this value for perspective effect
+            const scaleFactor = distance / (carX + carWidth / 2);
+
+            // Draw the car with perspective
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(carX, carY, carWidth * scaleFactor, carHeight * scaleFactor);
+        }
+
+        redraw(); // Initial drawing
+    </script>
+</body>
+</html>
