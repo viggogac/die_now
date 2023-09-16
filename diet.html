@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>How Often Do You Eat Fast Food?</title>
+    <style>
+        /* Style for the burger container */
+        .burger-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Style for the burger */
+        .burger {
+            width: 120px;
+            height: 80px;
+            background-color: #f9a825;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Center the patty vertically */
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the patty */
+        .patty {
+            width: 100%; /* Make the patty the same width as the burger */
+            background-color: #8B4513; /* Brown color for patty */
+            position: relative;
+            z-index: 1;
+            height: 50px; /* Initial thickness of the patty */
+        }
+
+        /* Style for the text */
+        .text {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>How Often Do You Eat Fast Food?</h1>
+    <div class="burger-container">
+        <div class="burger">
+            <!-- Dynamic generation of patties based on input -->
+            <script>
+                function updateBurgerPatties(frequency) {
+                    // Get the burger container element and patty element
+                    const burgerContainer = document.querySelector('.burger');
+                    const patty = document.querySelector('.patty');
+
+                    // Cap the input at 7
+                    const numericFrequency = parseInt(frequency);
+                    const cappedFrequency = Math.min(7, numericFrequency);
+
+                    // Ensure the input is a positive number
+                    if (isNaN(cappedFrequency) || cappedFrequency < 0) {
+                        return; // Invalid input, do nothing
+                    }
+
+                    // Calculate patty thickness based on input (maximum thickness: 50px)
+                    const pattyThickness = Math.min(50, cappedFrequency * 5);
+
+                    // Update the patty height
+                    patty.style.height = `${pattyThickness}px`;
+                }
+            </script>
+            <div class="patty"></div>
+        </div>
+        <div class="text">Number of Fast Food Consumptions per Week (Max: 7):</div>
+        <input type="number" id="fastFoodInput" placeholder="Enter frequency" min="0" max="7" oninput="updateBurgerPatties(this.value)">
+    </div>
+</body>
+</html>

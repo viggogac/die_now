@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="stickFigureCanvas" width="300" height="400"></canvas>
+    <p>Sunscreen Usage:</p>
+    <input type="number" id="sunscreenInput" placeholder="Enter days" min="0" max="7" oninput="updateStickFigureColor(this.value)">
+
+    <script>
+        const canvas = document.getElementById('stickFigureCanvas');
+        const ctx = canvas.getContext('2d');
+        const sunscreenInput = document.getElementById('sunscreenInput');
+
+        let headHeight = 0.5; // Start at 0.5 meters
+        const maxHeadHeight = 3;
+        const minHeadHeight = 0.05; // Minimum height is 0.05 meters
+
+        function updateStickFigureColor(sunscreenDays) {
+            // Convert the input to a number
+            const numericSunscreenDays = parseInt(sunscreenDays);
+
+            // Determine the color based on sunscreen usage
+            let color = 'green';
+
+            if (!isNaN(numericSunscreenDays)) {
+                if (numericSunscreenDays <= 1) {
+                    color = 'red';
+                } else if (numericSunscreenDays <= 3) {
+                    color = 'orange';
+                }
+            }
+
+            // Update the stick figure's color
+            drawStickFigure(color);
+        }
+
+        function drawStickFigure(color) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the stick figure with a head that changes height
+            const figureX = canvas.width / 2 - headHeight * 50;
+            const figureY = canvas.height / 4 + headHeight * 50;
+
+            ctx.strokeStyle = color; // Set the stroke color
+            ctx.lineWidth = 3; // Set the line width
+
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 4 - headHeight * 50, headHeight * 50, 0, Math.PI * 2); // Head
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2, figureY + headHeight * 100); // Body
+            ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
+            ctx.lineTo(canvas.width / 2 - headHeight * 25, figureY + headHeight * 175); // Left leg
+            ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
+            ctx.lineTo(canvas.width / 2 + headHeight * 25, figureY + headHeight * 175); // Right leg
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2 - headHeight * 50, figureY + headHeight * 100); // Left arm
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2 + headHeight * 50, figureY + headHeight * 100); // Right arm
+            ctx.stroke();
+        }
+
+        // Initialize the stick figure with a default color
+        updateStickFigureColor(sunscreenInput.value);
+
+        // Update the stick figure color when input changes
+        sunscreenInput.addEventListener('input', function () {
+            updateStickFigureColor(this.value);
+        });
+    </script>
+</body>
+</html>

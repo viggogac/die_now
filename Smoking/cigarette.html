@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mirrored Vertical Geometric Cigarette</title>
+    <style>
+        /* Style the container */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Style the mirrored cigarette */
+        .cigarette {
+            width: 12px;
+            height: 60px;
+            background-color: #adadad;
+            border: 1px solid #888888;
+            position: relative;
+            transform: rotate(90deg) scaleY(-1); /* Rotate 90 degrees to make it vertical and mirror horizontally */
+        }
+
+        /* Style the burning end of the cigarette */
+        .burning-end {
+            width: 10px;
+            height: 10px;
+            background-color: #ff6600;
+            border: 2px solid #cc3300;
+            border-radius: 50%;
+            position: absolute;
+            top: -8px;
+            left: -1px; /* Adjusted for mirroring */
+        }
+
+        /* Style the smoke */
+        .smoke {
+            width: 20px;
+            height: 10px;
+            background-color: transparent;
+            position: absolute;
+            top: -10px;
+            left: -24px; /* Adjusted for mirroring */
+            transform: rotate(20deg); /* Adjusted for mirroring */
+            border-radius: 50px/30px 30px 0 0;
+            background: radial-gradient(circle at 80% 0%, #ccc 0%, transparent 60%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cigarette">
+            <div class="burning-end"></div>
+            <div class="smoke"></div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Age and Sex Prompt</title>
+</head>
+<body>
+    <h1>Please Provide Your Age and Sex to Get Started</h1>
+    <form id="userForm">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required min="0"><br><br>
+
+        <label for="sex">Sex:</label>
+        <input type="radio" id="male" name="sex" value="Male">
+        <label for="male">Male</label>
+        
+        <input type="radio" id="female" name="sex" value="Female">
+        <label for="female">Female</label>
+        
+        <input type="radio" id="other" name="sex" value="Other">
+        <label for="other">Other</label><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        const userForm = document.getElementById("userForm");
+
+        userForm.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Get the age value from the form
+            const ageInput = document.getElementById("age");
+            const age = parseInt(ageInput.value);
+
+            // Get the sex value from the form
+            const sexInputs = document.getElementsByName("sex");
+            let sex = "";
+            for (const input of sexInputs) {
+                if (input.checked) {
+                    sex = input.value;
+                    break;
+                }
+            }
+
+            // Display the values (you can replace this with your own logic)
+            alert(`Age: ${age}, Sex: ${sex}`);
+
+            // Now you can access 'age' and 'sex' variables in JavaScript
+        });
+    </script>
+</body>
+</html>

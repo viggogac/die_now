@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cigarette Consumption Tracker</title>
+    <style>
+        /* Style the drag bar container */
+        .drag-bar-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        /* Style the drag bar */
+        .drag-bar {
+            width: 100%;
+            height: 20px;
+            background-color: transparent;
+            position: relative;
+        }
+
+        /* Style the draggable cigarette */
+        .cigarette {
+            width: 20px;
+            height: 40px;
+            background-color: #adadad;
+            border: 1px solid #888888;
+            position: absolute;
+            top: -10px;
+            left: 0;
+            cursor: grab;
+        }
+
+        /* Style the markers */
+        .marker {
+            width: 2px;
+            height: 10px;
+            background-color: #000;
+            position: absolute;
+            top: 5px;
+            transform: translateX(-50%);
+        }
+
+        /* Style the text label for markers */
+        .marker-label {
+            position: absolute;
+            top: 15px;
+            transform: translateX(-50%);
+        }
+
+        /* Style the selected value display */
+        .selected-value {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cigarette Consumption Tracker</h1>
+    <div class="drag-bar-container">
+        <div class="drag-bar">
+            <div class="cigarette" draggable="true"></div>
+            <div class="marker" style="left: 10%;"></div>
+            <div class="marker-label" style="left: 10%;">10</div>
+            <div class="marker" style="left: 30%;"></div>
+            <div class="marker-label" style="left: 30%;">30</div>
+            <div class="marker" style="left: 50%;"></div>
+            <div class="marker-label" style="left: 50%;">50</div>
+            <div class="marker" style="left: 70%;"></div>
+            <div class="marker-label" style="left: 70%;">70</div>
+        </div>
+        <div class="selected-value">Selected Value: <span id="selectedCigarettes">0</span></div>
+    </div>
+
+    <script>
+        const cigarette = document.querySelector('.cigarette');
+        const dragBar = document.querySelector('.drag-bar');
+        const selectedValue = document.getElementById('selectedCigarettes');
+
+        let isDragging = false;
+
+        cigarette.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            cigarette.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const newPosition = Math.max(0, Math.min(100, (e.clientX - dragBar.getBoundingClientRect().left) / dragBar.clientWidth * 100));
+                cigarette.style.left = newPosition + '%';
+                selectedValue.textContent = Math.round(newPosition);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            cigarette.style.cursor = 'grab';
+        });
+    </script>
+</body>
+</html>
+

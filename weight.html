@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stick Figure with Arms</title>
+    <style>
+        /* Base styles for the stick figure */
+        .stick-figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .head {
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .body {
+            width: 10px;
+            height: 100px;
+            background-color: #333;
+        }
+
+        .arms {
+            display: flex;
+            justify-content: space-between;
+            width: 60px;
+            margin-top: 10px;
+        }
+
+        .arm {
+            width: 10px;
+            height: 40px;
+            background-color: #333;
+            transform-origin: top;
+        }
+
+        /* Additional styles for adjusting size based on weight */
+        .light {
+            transform: scale(0.8);
+        }
+
+        .medium {
+            transform: scale(1);
+        }
+
+        .heavy {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Stick Figure with Arms</h1>
+    <div class="stick-figure">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="arms">
+            <div class="arm"></div>
+            <div class="arm"></div>
+        </div>
+    </div>
+    <label for="weightInput">Weight (in pounds):</label>
+    <input type="number" id="weightInput" placeholder="Enter weight" oninput="changeWeight(this.value)">
+    <script>
+        function changeWeight(weight) {
+            const stickFigure = document.querySelector('.stick-figure');
+
+            // Convert the input to a number
+            const numericWeight = parseFloat(weight);
+
+            // Define weight ranges for visuals
+            const lightWeightRange = [0, 100];
+            const mediumWeightRange = [101, 200];
+            const heavyWeightRange = [201, Infinity];
+
+            // Determine the class to apply based on the weight
+            let weightClass = '';
+
+            if (!isNaN(numericWeight)) {
+                if (numericWeight >= lightWeightRange[0] && numericWeight <= lightWeightRange[1]) {
+                    weightClass = 'light';
+                } else if (numericWeight >= mediumWeightRange[0] && numericWeight <= mediumWeightRange[1]) {
+                    weightClass = 'medium';
+                } else if (numericWeight >= heavyWeightRange[0]) {
+                    weightClass = 'heavy';
+                }
+            }
+
+            // Apply the appropriate class to adjust the size
+            stickFigure.className = 'stick-figure ' + weightClass;
+        }
+    </script>
+</body>
+</html>

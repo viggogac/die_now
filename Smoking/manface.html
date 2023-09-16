@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Man's Side Profile</title>
+    <style>
+        /* Style the shapes */
+        .face {
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc66;
+            border-radius: 50%;
+            position: relative;
+        }
+        .eye {
+            width: 20px;
+            height: 20px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .nose {
+            width: 10px;
+            height: 40px;
+            background-color: #ffcc66;
+            transform: rotate(45deg);
+            position: absolute;
+            left: 45px;
+            top: 35px;
+        }
+        .mouth {
+            width: 50px;
+            height: 20px;
+            background-color: #ff0000;
+            border-radius: 50px/50px 50px 0 0;
+            position: absolute;
+            left: 25px;
+            top: 70px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Geometric Side Profile of a Man</h1>
+    <div class="face">
+        <div class="eye" style="left: 30px; top: 30px;"></div>
+        <div class="eye" style="left: 50px; top: 30px;"></div>
+        <div class="nose"></div>
+        <div class="mouth"></div>
+    </div>
+</body>
+</html>
