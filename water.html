@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Water Cup</title>
+    <style>
+        #container {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            background-color: #ddd;
+        }
+        #cup {
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            width: 100px;
+            height: 200px;
+            background-color: #f7f7f7;
+            border: 2px solid #333;
+        }
+        #water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="cup">
+            <div id="water" style="height: 50%;"></div>
+        </div>
+    </div>
+    <script>
+        const cup = document.getElementById('cup');
+        const water = document.getElementById('water');
+        let isDragging = false;
+
+        cup.addEventListener('mousedown', (e) => {
+            isDragging = true;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const mouseY = e.clientY - cup.getBoundingClientRect().top;
+                const cupHeight = cup.clientHeight;
+                let newWaterHeight = Math.max(0, Math.min(cupHeight, mouseY));
+                water.style.height = `${cupHeight - newWaterHeight}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        function getWaterHeight() {
+            const cupHeight = cup.clientHeight;
+            const waterHeight = water.clientHeight;
+            return (cupHeight - waterHeight);
+        }
+
+        // Example usage:
+        setInterval(() => {
+            const waterHeight = getWaterHeight();
+            console.log(`Water level: ${waterHeight.toFixed(2)} pixels`);
+        }, 1000);
+    </script>
+</body>
+</html>
