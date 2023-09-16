@@ -22,7 +22,7 @@
         const maxHeadHeight = 3;
         const minHeadHeight = 0.05; // Minimum height is 0.05 meters
         let isDragging = false;
-        let offsetY;
+        let startY;
 
         canvas.addEventListener('mousedown', startDragging);
         document.addEventListener('mouseup', stopDragging);
@@ -33,7 +33,7 @@
 
             if (isMouseOverHead(mouseY)) {
                 isDragging = true;
-                offsetY = mouseY - (canvas.height / 4 - headHeight * 50);
+                startY = mouseY;
             }
         }
 
@@ -44,10 +44,13 @@
         function dragFigure(event) {
             if (isDragging) {
                 const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+                const deltaY = mouseY - startY;
 
-                const newHeadY = mouseY - offsetY;
-                headHeight = Math.max(minHeadHeight, Math.min(maxHeadHeight, newHeadY / canvas.height * maxHeadHeight));
+                // Update head height based on cursor movement
+                headHeight = Math.max(minHeadHeight, Math.min(maxHeadHeight, headHeight - deltaY / canvas.height));
                 heightValueElement.textContent = headHeight.toFixed(2);
+
+                startY = mouseY; // Update the starting position
                 drawStickFigure();
             }
         }
@@ -69,7 +72,7 @@
 
             ctx.beginPath();
             ctx.arc(canvas.width / 2, canvas.height / 4 - headHeight * 50, headHeight * 50, 0, Math.PI * 2); // Head
-            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight);
             ctx.lineTo(canvas.width / 2, figureY + headHeight * 100); // Body
             ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
             ctx.lineTo(canvas.width / 2 - headHeight * 25, figureY + headHeight * 175); // Left leg
