@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Clock</title>
+    <style>
+        #clock-container {
+            position: relative;
+            width: 300px; /* Set the width to your desired size */
+            height: 100px; /* Set the height to your desired size */
+            background-color: #ccc; /* Gray background color */
+            text-align: center;
+            font-size: 24px;
+            line-height: 100px; /* Center vertically */
+        }
+
+        #clock-text {
+            display: inline-block;
+        }
+
+        #incrementButton {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            outline: none;
+        }
+
+        #error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Excercise Hours Per Day</h1>
+    <div id="clock-container">
+        <span id="clock-text">0:00</span>
+    </div>
+    <button id="incrementButton">Increment by 0.5 hours</button>
+    <p id="error-message"></p>
+
+    <script>
+        const clockTextElement = document.getElementById("clock-text");
+        const incrementButton = document.getElementById("incrementButton");
+        const errorMessageElement = document.getElementById("error-message");
+
+        let currentDecimalHours = 0;
+
+        updateClock();
+
+        incrementButton.addEventListener("click", () => {
+            // Increment by 0.5 hours, but don't exceed 24 hours
+            if (currentDecimalHours < 24) {
+                currentDecimalHours += 0.5;
+                updateClock();
+            } else {
+                // Display an error message
+                errorMessageElement.textContent = "Time cannot exceed 24 hours.";
+            }
+        });
+
+        function updateClock() {
+            // Convert decimal hours to hours and minutes
+            const hours = Math.floor(currentDecimalHours);
+            const minutes = Math.round((currentDecimalHours - hours) * 60);
+
+            // Display the time as "hh:mm"
+            clockTextElement.textContent = `${hours}:${minutes.toString().padStart(2, "0")}`;
+
+            // Clear the error message
+            errorMessageElement.textContent = "";
+        }
+    </script>
+</body>
+</html>
+</html>

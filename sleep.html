@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Increment Number</title>
+    <style>
+        /* Styling for the circular button */
+        #incrementButton {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* Makes the button circular */
+            background-color: #3498db; /* Button background color */
+            color: #fff; /* Text color */
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hour/night: <span id="number">0</span></h1>
+    <button id="incrementButton">SNOOZE</button>
+
+    <script>
+        // JavaScript code to handle the button click and increment the number
+        const numberElement = document.getElementById("number");
+        const incrementButton = document.getElementById("incrementButton");
+
+        let currentNumber = 0;
+
+        incrementButton.addEventListener("click", () => {
+            if (currentNumber < 24) {
+                currentNumber++;
+                numberElement.textContent = currentNumber;
+            } else {
+                alert("Limit reached! You cannot increment beyond 24 hours.");
+            }
+        });
+    </script>
+</body>
+</html>
