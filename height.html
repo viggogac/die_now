@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="stickFigureCanvas" width="300" height="400"></canvas>
+    <p>Height: <span id="heightValue">0.05</span> meters</p>
+
+    <script>
+        const canvas = document.getElementById('stickFigureCanvas');
+        const ctx = canvas.getContext('2d');
+        const heightValueElement = document.getElementById('heightValue');
+
+        let headHeight = 0.5; // Start at 0.5 meters
+        const maxHeadHeight = 3;
+        const minHeadHeight = 0.05; // Minimum height is 0.05 meters
+        let isDragging = false;
+        let offsetY;
+
+        canvas.addEventListener('mousedown', startDragging);
+        document.addEventListener('mouseup', stopDragging);
+        document.addEventListener('mousemove', dragFigure);
+
+        function startDragging(event) {
+            const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+            if (isMouseOverHead(mouseY)) {
+                isDragging = true;
+                offsetY = mouseY - (canvas.height / 4 - headHeight * 50);
+            }
+        }
+
+        function stopDragging() {
+            isDragging = false;
+        }
+
+        function dragFigure(event) {
+            if (isDragging) {
+                const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+                const newHeadY = mouseY - offsetY;
+                headHeight = Math.max(minHeadHeight, Math.min(maxHeadHeight, newHeadY / canvas.height * maxHeadHeight));
+                heightValueElement.textContent = headHeight.toFixed(2);
+                drawStickFigure();
+            }
+        }
+
+        function isMouseOverHead(mouseY) {
+            // Check if the mouse is inside the head's bounding box
+            const headY = canvas.height / 4 - headHeight * 50;
+            const headBottom = headY + headHeight * 100;
+
+            return mouseY >= headY && mouseY <= headBottom;
+        }
+
+        function drawStickFigure() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the stick figure with a head that changes height
+            const figureX = canvas.width / 2 - headHeight * 50;
+            const figureY = canvas.height / 4 + headHeight * 50;
+
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 4 - headHeight * 50, headHeight * 50, 0, Math.PI * 2); // Head
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2, figureY + headHeight * 100); // Body
+            ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
+            ctx.lineTo(canvas.width / 2 - headHeight * 25, figureY + headHeight * 175); // Left leg
+            ctx.moveTo(canvas.width / 2, figureY + headHeight * 100);
+            ctx.lineTo(canvas.width / 2 + headHeight * 25, figureY + headHeight * 175); // Right leg
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2 - headHeight * 50, figureY + headHeight * 100); // Left arm
+            ctx.moveTo(canvas.width / 2, canvas.height / 4 + headHeight * 50);
+            ctx.lineTo(canvas.width / 2 + headHeight * 50, figureY + headHeight * 100); // Right arm
+            ctx.stroke();
+        }
+
+        drawStickFigure();
+    </script>
+</body>
+</html>

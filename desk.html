@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="clock" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('clock');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 150;
+        let rotation = 0; // Initial rotation in degrees
+
+        // Function to draw the clock hand
+        function drawHand(angle) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw the circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius + 10, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            // Draw the clock hand
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            const radians = (angle - 90) * (Math.PI / 180);
+            const endX = centerX + radius * Math.cos(radians);
+            const endY = centerY + radius * Math.sin(radians);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+
+            // Calculate and display the hour value
+            const hour = Math.round((angle / 360) * 24);
+            ctx.font = '24px Arial';
+            ctx.fillText(hour.toString(), centerX - 15, centerY + radius + 30);
+        }
+
+        // Initialize the clock hand
+        drawHand(rotation);
+
+        // Function to handle mouse events for dragging the clock hand
+        function handleMouseDown(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            const angle = Math.atan2(mouseY - centerY, mouseX - centerX);
+            rotation = (angle * (180 / Math.PI)) + 90;
+            drawHand(rotation);
+            canvas.addEventListener('mousemove', handleMouseMove);
+            canvas.addEventListener('mouseup', handleMouseUp);
+        }
+
+        function handleMouseMove(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            const angle = Math.atan2(mouseY - centerY, mouseX - centerX);
+
+            // Calculate the hour value within the range of 0 to 24
+            const hour = ((angle * (180 / Math.PI)) / 360) * 24;
+            if (hour >= 0 && hour <= 24) {
+                rotation = (angle * (180 / Math.PI)) + 90;
+                drawHand(rotation);
+            }
+        }
+
+        function handleMouseUp() {
+            canvas.removeEventListener('mousemove', handleMouseMove);
+            canvas.removeEventListener('mouseup', handleMouseUp);
+        }
+
+        canvas.addEventListener('mousedown', handleMouseDown);
+    </script>
+</body>
+</html>
