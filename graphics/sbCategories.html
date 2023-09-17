@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScript Sunburst Chart</title>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-sunburst.min.js"></script>
+    <style type="text/css">      
+      html, body, #container { 
+        width: 100%; 
+        height: 100%; 
+        margin: 0; 
+        padding: 0; 
+      } 
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      anychart.onDocumentReady(function(){
+        // create the data
+        var data = [
+          {
+            name: "Factors", value: 115, children: [
+              {
+                name: "Comsumption", value: 4, children: [
+                  {
+                    name: "Smoking", value: 1
+                  },
+                  {
+                    name: "Alcohol", value: 1
+                  },
+                  {
+                    name: "Diet", value: 1
+                  },
+                  {
+                    name: "Water", value: 1
+                  },
+                  
+                ]
+              },
+              {
+                name: "Physical Activity", value: 3, children: [
+                  {
+                    name: "Exercise", value: 1
+                  },
+                  {
+                    name: "Sitting", value: 1
+                  },
+                  {
+                    name: "Transportation", value: 1
+                  }
+                ]
+              },
+              {
+                name: "Bio", value: 3, children: [
+                  {
+                    name: "BMI", value: 1
+                  },
+                  {
+                    name: "Sleep", value: 1
+                  },
+                  {
+                    name: "Sunburns", value: 1
+                  }
+                ]
+              },
+              {
+                name: "Mental Health", value: 2, children: [
+                  {
+                    name: "Close Friends", value: 1
+                  },
+                  {
+                    name: "Stress", value: 1
+                  }
+                ]
+              },
+              {
+                name: "Miscellaneous", value: 3, children: [
+                  {
+                    name: "Driving", value: 1
+                  },
+                  {
+                    name: "Crime Rate", value: 1
+                  },
+                  {
+                    name: "Education Level", value: 1
+                  }
+                ]
+              }
+            ]
+          }
+        ];
+        // create a sunburst chart and set the data
+        var chart = anychart.sunburst(data, "as-tree");
+        // set the chart title
+        chart.title("Factors That Impact Your Life Expectancy");
+        // set the container id
+        chart.container("container");
+        // initiate drawing the chart
+        chart.draw();
+      });
+    </script>
+  </body>
+</html>

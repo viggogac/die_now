@@ -273,4 +273,19 @@ const mortalityTable = [
   console.log(startingValue0);
   console.log(maxDiff);
   console.log(minDiff);
-  
+
+let posSum = 0;
+let negSum = 0;
+function calculateProp() {
+    for (let i = 0; i < 16; i++) {
+        if (stepDifferences[i] >= 0) {
+
+            posSum += stepDifferences[i];
+        }
+        else if (stepDifferences[i] <=0) {
+            negSum -= stepDifferences[i];
+        }
+    }
+}
+
+export { calculateProp, evenSum, oddSum };
